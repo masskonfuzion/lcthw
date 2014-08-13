@@ -4,6 +4,13 @@
 #include "object.h"
 #include <assert.h>
 
+// =============================================================================
+// Set up functions to manage the Object struct
+// =============================================================================
+
+// Destroy the object
+// Remember that the function takes a void pointer, which points to the
+// actual memory to be manipulated.
 void Object_destroy(void *self)
 {
 	// remember Object is a struct that is defined in object.h
@@ -48,7 +55,11 @@ void *Object_new(size_t size, Object proto, char *description)
 {
 	//set up the default functions, in case they aren't set
 	//(i.e., we're setting the function pointers, so the object's 'member' functions
-	//will exist and be defined 
+	//will exist and be defined
+	
+	//if proto has an init function defined (init is a pointer, so it could 
+	//point to NULL, but it could also point to a legit function.  The same
+	//goes for all of the other functions pointers in this function
 	if (!proto.init) proto.init = Object_init;
 	if (!proto.describe) proto.describe = Object_describe;
 	if (!proto.destroy) proto.destroy = Object_destroy;
@@ -67,7 +78,7 @@ void *Object_new(size_t size, Object proto, char *description)
 	
 	// initialize it with whatever we were given
 	if (!el->init(el)) {
-		//If el init did not return a valid pointer, then we failed..
+		//If el->init did not return a valid pointer, then we failed..
 		el->destroy(el);
 		return NULL;
 	} else {

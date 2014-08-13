@@ -11,7 +11,9 @@ typedef struct {
 	// Description (string)
 	char *description;
 	
-	//function ptr -- initiailize self (self is a void pointer)
+	//function ptr -- initiailize self 
+	// *init is a function; so init is a pointer to a function
+	//(self is a void pointer, which can point to any type of data)
 	int (*init) (void *self);
 	
 	//function ptr -- describe self
@@ -21,6 +23,8 @@ typedef struct {
 	void (*destroy) (void *self);
 	
 	//function ptr -- move object in a particular direction
+	// *move is a function; move is the pointer to the function
+	// *move returns a void pointer
 	void *(*move) (void *self, Direction direction);
 	
 	//function ptr -- attack (inflict damage on the enemy)
@@ -42,6 +46,12 @@ void *Object_new(size_t size, Object proto, char *description);
 
 // The next 2 lines are macros
 #define NEW(T, N) Object_new(sizeof(T), T##Proto, N)
+// NEW wraps a function call to Object_new(sizeof(T), T##Proto, N);
+// T##Proto concatenates the parameter, T, with "Proto" (that is what ## does)
+// So, if T is "MyParam", then T##Proto is MyParamProto
+// T is a data type or a struct
+
 #define _(N) proto.N
+// Replace _(N) with "proto.N", so that if N is "MyWhatever", then _(N) changes to proto.MyWhatever
 
 #endif
