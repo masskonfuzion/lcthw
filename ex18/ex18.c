@@ -17,12 +17,19 @@ void die (const char* message)
 
 // a typedef creates a fake type, in this
 // case for a function pointer
+// Typedef works like: typedef real_type my_type
+// "my_type" is the type name that I want to create; real_type is the type that
+// already exists in C/C++
+// Here, "my_type" is a function pointer (so the function pointer is now a type)
+// so, in function definitions, "compare_cb" is a function pointer, which allows
+// a function parameter to be specified as a parameter to another function
 typedef int (*compare_cb) (int a, int b);
 
 /** A classic bubble sort function that uses the
 * compare_cb to do the sorting.
 */
-// compare_cb is a function callback -
+// compare_cb is a function callback - Here, the function definition accepts a
+// pointer to the function that controls how the bubble_sort will sort.
 int* bubble_sort(int* numbers, int count, compare_cb cmp)
 {
 	int temp = 0;
@@ -40,6 +47,8 @@ int* bubble_sort(int* numbers, int count, compare_cb cmp)
 	// Commence the O(n^2) sort -- not efficient, but good for learning C
 	for(i = 0; i < count; i++) {
 		for(j = 0; j < count - 1; j++) {
+			// cmp is a function that determines how the sorting will be
+			// executed
 			if( cmp(target[j], target[j+1]) > 0 ) {
 				temp = target[j+1];
 				target[j+1] = target[j];
