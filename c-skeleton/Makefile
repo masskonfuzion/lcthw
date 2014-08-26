@@ -33,7 +33,7 @@ SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
 # By default, make builds the first target if no targets are specified on the command line.
 # Here, the first target is "all"
-all: $(TARGET) $(SO_TARTEG) tests
+all: $(TARGET) $(SO_TARGET) tests
 
 # The following is a makefile trick that, in effect, "piggybacks" on another target.  (i.e. you can change options for a given target)
 # Step 1: Specify a target name on one line, with flags
